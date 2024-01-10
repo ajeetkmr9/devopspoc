@@ -1,0 +1,54 @@
+{
+    "dependent_target_code_lang": {
+        "cobol": {
+            "source_frameworks":  [ 
+                "Cobol 85", 
+                "Cobol 2002" 
+            ],
+            "target_frameworks" : ["Cobol 85", "Cobol 2002"],
+            "converts" : [
+                "cobol",
+                "java"
+            ]
+        },
+        "java": {
+            "source_frameworks":  ["Java 17 Class Library using Java", "Java 17 Console App using Java"],
+            "target_frameworks" : [],
+            "converts" : [
+                "cobol",
+                "java"
+            ]
+        }
+    },
+    "extension_map" : {
+        "cobol_85_java_8" : [
+            {"source" : ".cbl", "target" : ".java"},
+            {"source" : ".html", "target" : ".js"}
+        ]
+    },
+    "accessible_features":  {
+        "convertion": {},
+        "documentation" : {},
+        "unit_testcase" : {},
+        "diagram" : {}
+    },
+    "providers": [
+    {
+        "azure_openai": {
+            "models": [
+                {
+                    "gpt-4": {
+                        "token_limit": 1000,
+                        "temperature": 0.7,
+                        "top_p": 1,
+                        "frequency_penalty": 1,
+                        "presence_penalty": 1
+                    }
+                }
+            ]
+        }
+    }
+
+]
+
+}
