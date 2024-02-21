@@ -1,0 +1,35 @@
+{
+    "dependent_target_code_lang": {
+        "cobol": {
+            "src_framework":  [ 
+                "Cobol 85", 
+                "Cobol 2002" 
+            ],
+            "target_framework" : ["Fixed", "Free"],
+            "converts" : [
+                "cobol",
+                "java"
+            ]
+        },
+        "java": {
+            "src_framework":  ["Java 17 Class Library using Java", "Java 17 Console App using Java"],
+            "target_framework" : [],
+            "converts" : [
+                "cobol",
+                "java"
+            ]
+        }
+    },
+    "extension_map" : {
+        "cobol_85_java_8" : [
+            {"source" : ".cbl", "target" : ".java"},
+            {"source" : ".html", "target" : ".js"}
+        ]
+    },
+    "accessible_features":  {
+        "convertion": {},
+        "documentation" : {},
+        "unit_testcase" : {},
+        "diagram" : {}
+    }
+}	
