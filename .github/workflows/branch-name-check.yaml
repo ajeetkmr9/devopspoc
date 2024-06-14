@@ -21,3 +21,5 @@ jobs:
             echo "Branch name is invalid. It must follow the pattern 'feature/<JIRA_ID>-<short_description>' or 'patch/<JIRA_ID>-<short_description>'."
             exit 1
           fi
+
+          
