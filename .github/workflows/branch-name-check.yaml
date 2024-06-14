@@ -1,0 +1,24 @@
+name: Branch Name Check
+
+on:
+  create:
+    branches:
+      - 'patch/*'
+      - 'feature/*'
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        
+      - name: Validate branch name
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [[ $BRANCH_NAME =~ ^(patch|feature)\/[A-Z]+-[0-9]+-[a-z0-9-]+$ ]]; then
+            echo "Branch name is valid."
+          else
+            echo "Branch name is invalid. Branch names must follow the pattern 'patch/<JIRA_ID>-<short_description>' or 'feature/<JIRA_ID>-<short_description>'"
+            exit 1
+          fi
