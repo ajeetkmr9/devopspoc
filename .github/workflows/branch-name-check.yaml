@@ -1,28 +1,23 @@
-name: Branch Name Check
+name: Check Branch Naming Convention
 
 on:
   create:
     branches:
-      - 'patch/*'
       - 'feature/*'
+      - 'patch/*'
 
 jobs:
   check-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+      - name: Check out the repository
+        uses: actions/checkout@v2
 
-      - name: Print branch name for debugging
-        run: echo "Branch name:${GITHUB_REF#refs/heads/}"
-        
       - name: Validate branch name
         run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          echo "Validating branch name: $BRANCH_NAME"
-          if [[ $BRANCH_NAME =~ ^(patch|feature)\/[A-Z]+-[0-9]+-[a-z0-9-]+$ ]]; then
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/(feature|patch)/[A-Z]+-[0-9]+-.+ ]]; then
             echo "Branch name is valid."
           else
-            echo "Branch name is invalid. Branch names must follow the pattern 'patch/<JIRA_ID>-<short_description>' or 'feature/<JIRA_ID>-<short_description>'"
+            echo "Branch name is invalid. It must follow the pattern 'feature/<JIRA_ID>-<short_description>' or 'patch/<JIRA_ID>-<short_description>'."
             exit 1
           fi
