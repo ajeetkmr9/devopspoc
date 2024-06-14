@@ -1,0 +1,53 @@
+name: Branch, Commit Message, and PR Title Check
+
+on:
+  create:
+    branches:
+      - '*'
+  push:
+    branches:
+      - '*'
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  branch-commit-pr-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Check branch name
+      if: github.event_name == 'create' || github.event_name == 'push'
+      env:
+        GITHUB_REF: ${{ github.ref }}
+      run: |
+        BRANCH_NAME=${GITHUB_REF##*/}
+        if [[ ! $BRANCH_NAME =~ ^(patch|feature)\/[A-Z]+-[0-9]+-.+ ]]; then
+          echo "Invalid branch name: $BRANCH_NAME"
+          exit 1
+        fi
+
+    - name: Check commit messages and PR title
+      if: github.event_name == 'pull_request'
+      env:
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        COMMITS=$(git log origin/main..HEAD --pretty=format:"%s")
+        JIRA_PATTERN='^[A-Z]+-[0-9]+'
+        
+        # Check PR title
+        if [[ ! $PR_TITLE =~ $JIRA_PATTERN ]]; then
+          echo "Invalid PR title: $PR_TITLE"
+          exit 1
+        fi
+
+        # Check commit messages
+        while IFS= read -r COMMIT; do
+          if [[ ! $COMMIT =~ $JIRA_PATTERN ]]; then
+            echo "Invalid commit message: $COMMIT"
+            exit 1
+          fi
+        done <<< "$COMMITS"
