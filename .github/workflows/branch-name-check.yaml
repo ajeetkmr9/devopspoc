@@ -23,7 +23,7 @@ jobs:
       env:
         GITHUB_REF: ${{ github.ref }}
       run: |
-        BRANCH_NAME=${GITHUB_REF##*/}
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}  # Remove 'refs/heads/' prefix
         if [[ ! $BRANCH_NAME =~ ^(patch|feature)\/[A-Z]+-[0-9]+-.+ ]]; then
           echo "Invalid branch name: $BRANCH_NAME"
           exit 1
