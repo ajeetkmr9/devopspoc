@@ -15,7 +15,7 @@ jobs:
 
       - name: Validate branch name
         run: |
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/(feature|patch)/[A-Z]+-[0-9]+-.+ ]]; then
+          if [[ "${GITHUB_REF}" =~ ^(feature|patch)/[A-Z]+-[0-9]+-.+ ]]; then
             echo "Branch name is valid."
           else
             echo "Branch name is invalid. It must follow the pattern 'feature/<JIRA_ID>-<short_description>' or 'patch/<JIRA_ID>-<short_description>'."
